@@ -1,4 +1,4 @@
-<h1>Pelle Library App</h1>
+<h1>Pelle Library App(PLA)™</h1>
  <p>This is an application where stores can stock up on books from our warehouse.<br> 
     You can also check selling and buying data about any book or store.</p>
 <h2>Install guide</h2>
