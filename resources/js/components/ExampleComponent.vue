@@ -20,7 +20,7 @@
     </div>
     <br>
     <span :id="'book' + book.id">
-    price: {{ book.price }}</span><br>
+    price: € {{ book.price.toFixed(2).replace('.', ',') }}</span><br>
     schrijver: <a :href="'/author/' + book.author.id" onclick="notCall(event)">{{ book.author.name }}</a><br>
     uitgever: <a :href="'/publisher/' + book.publisher.id " onclick="notCall(event)">{{ book.publisher.name }}</a><br>
     <br><br>
@@ -28,7 +28,6 @@
 </div>
 </template>
 <script>
-
     export default {
         props: [
             'books'
@@ -48,7 +47,6 @@
                     }
                     console.log('after' , this.testBooks); 
                 });
-              
         },
     }
 </script>

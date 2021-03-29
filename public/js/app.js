@@ -44805,7 +44805,10 @@ var render = function() {
           _c("br"),
           _vm._v(" "),
           _c("span", { attrs: { id: "book" + book.id } }, [
-            _vm._v("\n    price: " + _vm._s(book.price))
+            _vm._v(
+              "\n    price: € " +
+                _vm._s(book.price.toFixed(2).replace(".", ","))
+            )
           ]),
           _c("br"),
           _vm._v("\n    schrijver: "),
