@@ -30,6 +30,7 @@ class BookController extends Controller
             // foreach($request->store_id as $strid){
             //     Book::find($book->id)->stores()->updateExistingPivot($strid, ['sales_amount' => rand(50,2000)]);
             // }
+            \App\Events\BookIsCreated::dispatch(Book::with(['author','publisher','stores','image'])->get()->find($book->id));
         return redirect('/');
     }
     public function indexView($view){

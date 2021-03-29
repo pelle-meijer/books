@@ -1885,15 +1885,17 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     window.Echo.channel('books').listen('.price-is-changed', function (e) {
-      console.log(_this.testBooks);
-
+      //console.log(this.testBooks);
       for (var i = 0; i < _this.testBooks.length; i++) {
         if (_this.testBooks[i].id == e.books.id) {
           _this.testBooks[i].price = e.books.price;
         }
-      }
+      } //console.log('after' , this.testBooks);
 
-      console.log('after', _this.testBooks);
+    });
+    window.Echo.channel('books').listen('.book-is-added', function (e) {
+      _this.testBooks[_this.testBooks.length] = e.book;
+      console.log(_this.testBooks);
     });
   }
 });

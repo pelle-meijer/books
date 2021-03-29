@@ -39,14 +39,18 @@
         },
         mounted: function(){
           window.Echo.channel('books').listen('.price-is-changed', (e) => {
-                    console.log(this.testBooks);
-                    for(let i = 0; i < this.testBooks.length; i ++){
-                        if(this.testBooks[i].id == e.books.id){
-                            this.testBooks[i].price = e.books.price;
-                        }
+                //console.log(this.testBooks);
+                for(let i = 0; i < this.testBooks.length; i ++){
+                    if(this.testBooks[i].id == e.books.id){
+                        this.testBooks[i].price = e.books.price;
                     }
-                    console.log('after' , this.testBooks); 
-                });
+                }
+                //console.log('after' , this.testBooks);
+            });
+          window.Echo.channel('books').listen('.book-is-added', (e) => {
+                this.testBooks[this.testBooks.length] = e.book;
+                console.log(this.testBooks);
+            });
         },
     }
 </script>
