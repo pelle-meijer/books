@@ -10,11 +10,12 @@
     <li>Configure your pusher settings</li>
     <li>Configure the APP_KEY and APP_LOCATION</li>
     <li>Configure your mail settings</li>
+    <li>In your terminal run <code>php artisan migrate</code></li>
 </ul>
 <h2>Start up</h2>
 <ul>
     <li>In your terminal go to your route directory</li>
-    <li>start the app with <code>php artisan serve</code></li>
+    <li>Start the app with <code>php artisan serve</code></li>
     <li>In another tab run <code>php artisan websockets:serve</code></li>
     <li>Go to <i>yourhostname.com/laravel-websockets</i> and hit connect</li>
     <li>Now you're ready to use your application</li>
