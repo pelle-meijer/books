@@ -13,7 +13,12 @@ class Order extends Model
     ];
 
     public function books(){
-        return $this->belongsToMany(Book::class,'book_order')->withTimestamps()->withPivot('amount', 'created_at');
+        return $this->belongsToMany(Book::class,'book_order')
+                    ->withTimestamps()
+                    ->withPivot(
+                        'amount', 
+                        'created_at'
+                    );
     }
     public function store(){
         return $this->belongsTo(Store::class);

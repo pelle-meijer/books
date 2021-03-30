@@ -91,7 +91,6 @@
         google.charts.load('current', {'packages':['annotatedtimeline']});
         google.charts.setOnLoadCallback(() => drawChart(this.stat, this.dates));
     function drawChart(stat, dates) {
-        console.log(stat);
       var data = new google.visualization.DataTable();
       data.addColumn('date', 'date');
       data.addColumn('number', 'books bought');
@@ -123,7 +122,6 @@
             new Date()
             a.push([new Date(dates[i].year, dates[i].month, dates[i].day, dates[i].hour, dates[i].minutes), dates[i].amount]);
         }
-        console.log(a);
         return a;
     }
 </script>

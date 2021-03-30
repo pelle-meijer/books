@@ -21,7 +21,7 @@ class AuthorController extends Controller
         return redirect('/');
     }
     public function show(Author $author){
-        return view('showAuthor', ['author' => $author]);
+        return view('show/showAuthor', ['author' => $author]);
     }
     public function destroy(Author $author){
         if($author){
@@ -33,7 +33,7 @@ class AuthorController extends Controller
         }
     }
     public function edit(Author $author){
-        return view('edit_author', ['author' => $author]);
+        return view('edit/edit_author', ['author' => $author]);
     }
     public function update(Author $author, StoreUpdateRequest $request){
         $validated = $request->validated();

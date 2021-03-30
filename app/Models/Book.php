@@ -31,10 +31,16 @@ class Book extends Model
         return $this->belongsTo(Image::class);
     }
     public function stores(){
-        return $this->belongsToMany(Store::class, 'book_store')->withPivot('sales_amount');
+        return $this->belongsToMany(Store::class, 'book_store')
+                    ->withPivot('sales_amount');
     }
     public function orders(){
-        return $this->belongsToMany(Order::class, 'book_order')->withTimestamps()->withPivot('amount', 'created_at');
+        return $this->belongsToMany(Order::class, 'book_order')
+                    ->withTimestamps()
+                    ->withPivot(
+                        'amount', 
+                        'created_at'
+                    );
     }
     public function getTranslatedNameAttribute(){
         $arr = json_decode($this->original['name'], true);
@@ -48,7 +54,7 @@ class Book extends Model
         $l = session('language', "4");
         return  !array_key_exists($l,$arr) ? 
                 reset($arr) :
-                $arr[$l];
+                $a0rr[$l];
     }
     public function searchName($search){
         $arr = json_decode($this->original['name'], true);

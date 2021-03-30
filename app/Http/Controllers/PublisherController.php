@@ -10,7 +10,6 @@ use App\Models\Book;
 class PublisherController extends Controller
 {
     public function store(StoreUpdateRequest $request){
-        //$validated = $request->validated();
         $publisher = new Publisher;
         $publisher->name = $request->name;
         $publisher->save();
@@ -18,7 +17,7 @@ class PublisherController extends Controller
     }
 
     public function show(Publisher $publisher){
-        return view('showPublisher', ['publisher' => $publisher]);
+        return view('show/showPublisher', ['publisher' => $publisher]);
     }
     public function destroy(Publisher $publisher){
         if($publisher){
@@ -30,7 +29,7 @@ class PublisherController extends Controller
         }
     }
     public function edit(Publisher $publisher){
-        return view('edit_publisher', ['publisher' => $publisher]);
+        return view('edit/edit_publisher', ['publisher' => $publisher]);
     }
     public function update(Publisher $publisher, StoreUpdateRequest $request){
         $validated = $request->validated();

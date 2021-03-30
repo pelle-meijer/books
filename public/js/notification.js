@@ -34,7 +34,6 @@ function enterframe(){
     }
 }
 function leaveframe(){
-    console.log('leave');
     if(size > 0){
         size -= 3;
         element.style.width = size + "%";

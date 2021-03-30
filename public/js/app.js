@@ -1885,17 +1885,14 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     window.Echo.channel('books').listen('.price-is-changed', function (e) {
-      //console.log(this.testBooks);
       for (var i = 0; i < _this.testBooks.length; i++) {
         if (_this.testBooks[i].id == e.books.id) {
           _this.testBooks[i].price = e.books.price;
         }
-      } //console.log('after' , this.testBooks);
-
+      }
     });
     window.Echo.channel('books').listen('.book-is-added', function (e) {
-      _this.testBooks[_this.testBooks.length] = e.book;
-      console.log(_this.testBooks);
+      _this.testBooks.push(e.book);
     });
   }
 });
@@ -2207,7 +2204,6 @@ __webpack_require__.r(__webpack_exports__);
     });
 
     function drawChart(stat, dates) {
-      console.log(stat);
       var data = new google.visualization.DataTable();
       data.addColumn('date', 'date');
       data.addColumn('number', 'books bought');
@@ -2240,7 +2236,6 @@ function fill(stat, dates) {
     a.push([new Date(dates[i].year, dates[i].month, dates[i].day, dates[i].hour, dates[i].minutes), dates[i].amount]);
   }
 
-  console.log(a);
   return a;
 }
 

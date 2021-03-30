@@ -29,7 +29,10 @@ class OrderPlaced extends Mailable
      */
     public function build()
     {
-        return $this->from('books@mail.com')->view('emails.ordermail', ['total' => $this->total,
-                                                                        'books' => $this->books]);
+        return $this->from('books@mail.com')
+                ->view('emails.ordermail', [
+                    'total' => $this->total,
+                    'books' => $this->books
+                    ]);
     }
 }

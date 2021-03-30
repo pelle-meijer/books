@@ -9,6 +9,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TranslationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\LoginController;
 
 use Illuminate\Support\Facades\Redis;
 
@@ -30,7 +31,7 @@ Route::get('/del-book/{book}', [BookController::class, "destroy"])->middleware('
 Route::get('/del-auth/{author}', [AuthorController::class, "destroy"])->middleware('admin.check');
 Route::get('/del-pub/{publisher}', [PublisherController::class, "destroy"])->middleware('admin.check');
 Route::get('/del-store/{store}', [StoreController::class, "destroy"]);
-Route::get('/add/{view}', [BookController::class, "indexView"])->middleware('admin.check');
+Route::get('/add/{view}', [BookController::class, "indexView"])->middleware('auth')->middleware('admin.check');
 Route::get('/publisher/{publisher}', [PublisherController::class, "show"]);
 Route::get('/author/{author}', [AuthorController::class, "show"]);
 Route::get('/bookstore/{store}', [StoreController::class, "show"])->middleware('store.buy');
@@ -45,6 +46,7 @@ Route::get('/search-page', function(){
 });
 Route::get('/language/{language}', [TranslationController::class, "setLanguage"]);
 Route::get('/store-panel', [StoreController::class, "index"])->middleware('auth')->middleware('store.panel');
+Route::get('/logout', [LoginController::class, "logout"]);
 Route::get('/test/counter', function(){
     return view('price-counter-test');
 });

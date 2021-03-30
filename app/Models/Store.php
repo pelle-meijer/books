@@ -16,7 +16,8 @@ class Store extends Model
     ];
 
     public function books(){
-        return $this->belongsToMany(Book::class, 'book_store')->withPivot('sales_amount');
+        return $this->belongsToMany(Book::class, 'book_store')
+                    ->withPivot('sales_amount');
     }
     public function orders(){
         return $this->hasMany(Order::class);

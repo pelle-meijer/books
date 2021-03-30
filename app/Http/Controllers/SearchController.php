@@ -14,7 +14,6 @@ class SearchController extends Controller
     public function search(Request $request){
         $authors = Author::where('name', 'LIKE', $request->q . '%')->get();
         $publishers = Publisher::where('name', 'LIKE', $request->q . '%')->get();
-        //$books = Book::where('searchName', 'LIKE','%' . $request->q . '%')->get();
         $books = Book::all();
         $bs = array();
         foreach($books as $book){

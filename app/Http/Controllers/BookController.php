@@ -27,10 +27,13 @@ class BookController extends Controller
             $book->price = $request->price;
             $book->save();
             $book->stores()->attach($request->store_id);
-            // foreach($request->store_id as $strid){
-            //     Book::find($book->id)->stores()->updateExistingPivot($strid, ['sales_amount' => rand(50,2000)]);
-            // }
-            \App\Events\BookIsCreated::dispatch(Book::with(['author','publisher','stores','image'])->get()->find($book->id));
+            \App\Events\BookIsCreated::dispatch(
+                        Book::with([
+                            'author',
+                            'publisher',
+                            'stores',
+                            'image'
+                            ])->get()->find($book->id));
         return redirect('/');
     }
     public function indexView($view){
@@ -39,7 +42,7 @@ class BookController extends Controller
         $publishers = Publisher::all();
         $stores = Store::all();
         $translations = Translation::all();
-            return view($view, ['books' => $books,
+            return view('adding/' . $view, ['books' => $books,
                                 'authors' => $authors,
                                 'publishers' => $publishers,
                                 'stores' => $stores,
@@ -47,11 +50,19 @@ class BookController extends Controller
     }
     public function index(){
         // dd(Book::all());
-        $books = Book::with(['author','publisher','stores','image'])->get();
+        $books = Book::with([
+                    'author',
+                    'publisher',
+                    'stores',
+                    'image'
+                    ])->get();
         
         $languages = Translation::all();
         //return TranslationController::language();
-        return view('welcome', ['books' => $books, 'languages' => $languages]);
+        return view('welcome', [
+                    'books' => $books, 
+                    'languages' => $languages
+                    ]);
     }
     public function destroy(Book $book){
         if($book){
@@ -68,7 +79,12 @@ class BookController extends Controller
         $authors = Author::all();
         $publishers = Publisher::all();
         $stores = Store::all();
-        return view('edit_book', ['book'=>$book, 'authors'=>$authors, 'publishers'=>$publishers,'stores' => $stores]);
+        return view('edit/edit_book', [
+                        'book'=>$book, 
+                        'authors'=>$authors, 
+                        'publishers'=>$publishers,
+                        'stores' => $stores
+                        ]);
     }
     public function update(Book $book, StoreUpdateRequest $request){
         $validated = $request->validated();
@@ -82,7 +98,12 @@ class BookController extends Controller
         $book->save();
         $book->stores()->sync($request->store_id);
         foreach($request->store_id as $strid){
-            Book::find($book->id)->stores()->updateExistingPivot($strid, ['sales_amount' => rand(50,2000)]);
+            Book::find($book->id)->stores()
+                        ->updateExistingPivot(
+                            $strid, 
+                            [
+                            'sales_amount' => rand(50,2000)
+                            ]);
         }
         \App\Events\PriceIsChanged::dispatch($book);
         return redirect('/');
@@ -120,10 +141,17 @@ class BookController extends Controller
             array_push($dates, $date);
             $date->amount = $store[0]->orders[$i]->books[0]->pivot->amount;
         }
-        return view('stat-viewer', ['stats' => $ss, 'store' => $store[0], 'dates' => $dates]);
+        return view('show/stat-viewer', [
+                    'stats' => $ss, 
+                    'store' => $store[0], 
+                    'dates' => $dates
+                    ]);
     }else{
         $store = null;
-        return view('stat-viewer', ['stats' => $ss, 'store' => $store[0]]);
+        return view('show/stat-viewer', [
+                    'stats' => $ss, 
+                    'store' => $store[0]
+                    ]);
     }
     }
 }

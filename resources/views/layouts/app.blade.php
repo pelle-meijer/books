@@ -83,4 +83,5 @@
     </body>
     <script src="{{ asset('js/app.js')}}"></script>
     <script src="{{ asset('js/counter.js') }}"></script>
+    <script src="https://kit.fontawesome.com/f04e8453bb.js" crossorigin="anonymous"></script>
 </html>
