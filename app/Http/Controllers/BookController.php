@@ -17,7 +17,6 @@ class BookController extends Controller
 {
     public function store(StoreUpdateRequest $request)
     {
-        //dd($request);
         $validated = $request->validated();
             $book = new Book;
             $book->name = $book->createTranslation($request->name);
@@ -65,15 +64,9 @@ class BookController extends Controller
                     ]);
     }
     public function destroy(Book $book){
-        if($book){
-            ImageController::destroy($book->image);
-            $destroy = Book::destroy($book->id);
-            if($destroy){
-                return redirect()->back();
-            }else{
-                echo "Deleting was unsuccesfull";
-            }
-        }
+        ImageController::destroy($book->image);
+        $destroy = Book::destroy($book->id);
+        return $destroy ? redirect()->back() : route('/') ;
     }
     public function edit(Book $book){
         $authors = Author::all();
@@ -92,18 +85,18 @@ class BookController extends Controller
         $book->author_id = $request->author_id;
         $book->publisher_id = $request->publisher_id;
         $book->price = $request->price;
-        if($request->hasFile('image')){
         $book->image_id = ImageController::store($request);
-        }
         $book->save();
         $book->stores()->sync($request->store_id);
-        foreach($request->store_id as $strid){
-            Book::find($book->id)->stores()
+        if($request->store_id){
+            foreach($request->store_id as $strid){
+                Book::find($book->id)->stores()
                         ->updateExistingPivot(
                             $strid, 
                             [
                             'sales_amount' => rand(50,2000)
                             ]);
+            }
         }
         \App\Events\PriceIsChanged::dispatch($book);
         return redirect('/');

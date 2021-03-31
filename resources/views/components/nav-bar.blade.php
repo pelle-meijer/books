@@ -60,7 +60,6 @@ function myFunction() {
   text-decoration: none;
   font-size: 17px;
   display: block;
-  
 }
 
 /* Style the hamburger menu */
@@ -83,5 +82,4 @@ function myFunction() {
   background-color: #4CAF50;
   color: white;
 }
-
 </style>

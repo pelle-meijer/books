@@ -54,7 +54,7 @@ class Book extends Model
         $l = session('language', "4");
         return  !array_key_exists($l,$arr) ? 
                 reset($arr) :
-                $a0rr[$l];
+                $arr[$l];
     }
     public function searchName($search){
         $arr = json_decode($this->original['name'], true);

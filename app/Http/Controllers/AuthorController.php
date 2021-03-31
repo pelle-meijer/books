@@ -13,7 +13,7 @@ class AuthorController extends Controller
         $authors = Author::all();
         return $authors;
     }
-    public function store(StoreUpdateRequest $request){
+    public function store(Request $request){
         //$validated = $request->validated();
         $author = new Author;
         $author->name = $request->name;
@@ -24,13 +24,8 @@ class AuthorController extends Controller
         return view('show/showAuthor', ['author' => $author]);
     }
     public function destroy(Author $author){
-        if($author){
-            foreach($author->books as $book){
-                $destroy = Book::destroy($book->id);
-            }
-            $destroy = Author::destroy($author->id);
-            return redirect('/');
-        }
+        $author->deleteModel();
+        return redirect('/');
     }
     public function edit(Author $author){
         return view('edit/edit_author', ['author' => $author]);

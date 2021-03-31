@@ -14,4 +14,11 @@ class Author extends Model
     public function books(){
         return $this->hasMany(Book::class);
     }
+
+    public function deleteModel(){
+        foreach($this->books as $book){
+            $destroy = Book::destroy($book->id);
+        }
+        $destroy = $this->delete();
+    }
 }
