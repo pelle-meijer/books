@@ -1874,6 +1874,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['books'],
   data: function data() {
@@ -44707,7 +44713,7 @@ var render = function() {
         {
           key: book.id,
           staticClass: "book",
-          staticStyle: { "padding-left": "2vw", height: "25vh" },
+          staticStyle: { "padding-left": "2vw" },
           attrs: { id: book.id, onclick: "pickUp(this)" }
         },
         [
@@ -44717,7 +44723,7 @@ var render = function() {
             staticStyle: {
               diplay: "block",
               float: "left",
-              height: "20vh",
+              height: "23vh",
               "margin-right": "1vw"
             },
             attrs: { src: book.image.path, alt: "" }
@@ -44832,10 +44838,43 @@ var render = function() {
             [_vm._v(_vm._s(book.publisher.name))]
           ),
           _c("br"),
-          _vm._v(" "),
+          _vm._v("\n    bookstore: "),
+          _vm._l(book.stores, function(store) {
+            return _c("span", { key: store.id }, [
+              _c(
+                "a",
+                {
+                  staticStyle: { display: "inline-block" },
+                  attrs: {
+                    href: "/bookstore/" + store.id,
+                    onclick: "notCall(event)"
+                  }
+                },
+                [_vm._v(_vm._s(store.name) + "  ")]
+              )
+            ])
+          }),
           _c("br"),
+          _vm._v("\n    genre: "),
+          _vm._l(book.genres, function(genre) {
+            return _c("span", { key: genre.id }, [
+              _c(
+                "a",
+                {
+                  staticStyle: { display: "inline-block" },
+                  attrs: {
+                    href: "/genre/" + genre.id,
+                    onclick: "notCall(event)"
+                  }
+                },
+                [_vm._v(_vm._s(genre.name) + "  ")]
+              )
+            ])
+          }),
+          _vm._v(" "),
           _c("br")
-        ]
+        ],
+        2
       )
     }),
     0

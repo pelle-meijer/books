@@ -11,28 +11,16 @@ use App\Models\Author;
 use App\Models\Publisher;
 use App\Models\Store;
 use App\Models\Translation;
+use App\Models\Genre;
 use App\Models\Book_store;
 
 class BookController extends Controller
 {
     public function store(StoreUpdateRequest $request)
     {
+        $book = new Book;
         $validated = $request->validated();
-            $book = new Book;
-            $book->name = $book->createTranslation($request->name);
-            $book->author_id = $request->author_id;
-            $book->publisher_id = $request->publisher_id;
-            $book->image_id = ImageController::store($request);
-            $book->price = $request->price;
-            $book->save();
-            $book->stores()->attach($request->store_id);
-            \App\Events\BookIsCreated::dispatch(
-                        Book::with([
-                            'author',
-                            'publisher',
-                            'stores',
-                            'image'
-                            ])->get()->find($book->id));
+        $book->create($request);
         return redirect('/');
     }
     public function indexView($view){
@@ -41,23 +29,23 @@ class BookController extends Controller
         $publishers = Publisher::all();
         $stores = Store::all();
         $translations = Translation::all();
+        $genres = Genre::all();
             return view('adding/' . $view, ['books' => $books,
                                 'authors' => $authors,
                                 'publishers' => $publishers,
                                 'stores' => $stores,
-                                'translations' => $translations]);
+                                'translations' => $translations,
+                                'genres' => $genres]);
     }
     public function index(){
-        // dd(Book::all());
         $books = Book::with([
                     'author',
                     'publisher',
                     'stores',
-                    'image'
+                    'image',
+                    'genres'
                     ])->get();
-        
         $languages = Translation::all();
-        //return TranslationController::language();
         return view('welcome', [
                     'books' => $books, 
                     'languages' => $languages
@@ -72,11 +60,13 @@ class BookController extends Controller
         $authors = Author::all();
         $publishers = Publisher::all();
         $stores = Store::all();
+        $genres = Genre::all();
         return view('edit/edit_book', [
-                        'book'=>$book, 
-                        'authors'=>$authors, 
-                        'publishers'=>$publishers,
-                        'stores' => $stores
+                        'book' => $book, 
+                        'authors' => $authors, 
+                        'publishers' => $publishers,
+                        'stores' => $stores,
+                        'genres' => $genres,
                         ]);
     }
     public function update(Book $book, StoreUpdateRequest $request){
@@ -88,6 +78,7 @@ class BookController extends Controller
         $book->image_id = ImageController::store($request);
         $book->save();
         $book->stores()->sync($request->store_id);
+        $book->genres()->sync($request->genre_id);
         if($request->store_id){
             foreach($request->store_id as $strid){
                 Book::find($book->id)->stores()
@@ -106,7 +97,6 @@ class BookController extends Controller
             $q->selectRaw('store_id, sum(amount) as total_amount')
                 ->groupBy('orders.store_id');
         }])->first();
-        //dd($data);
         $ss = array();
         for($i = 0; $i < count($data['book']->orders); $i ++){
             $s = new Stat;
@@ -120,7 +110,6 @@ class BookController extends Controller
         $store = Store::whereId($store)->with(['orders.books' => function($q) use ($book){
             $q->whereBookId($book);
         }])->get();
-        //dd($store);
         $dates = array();
         for($i = 0; $i < count($store[0]->orders); $i ++){
             $time = $store[0]->orders[$i]->created_at;

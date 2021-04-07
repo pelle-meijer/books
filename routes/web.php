@@ -9,6 +9,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TranslationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GenreController;
 use App\Http\Controllers\Auth\LoginController;
 
 use Illuminate\Support\Facades\Redis;
@@ -63,6 +64,7 @@ Route::post('/store', [StoreController::class, "store"]);
 Route::post('/translation', [TranslationController::class, "store"]);
 Route::post('bookstore/order/{store}', [OrderController::class, "store"]);
 Route::post('/login', [UserController::class, "login"]);
+Route::post('/genre', [GenreController::class, "store"]);
 
 
 Auth::routes();

@@ -45,6 +45,15 @@
                                                                 >{{ $store->name }}</option>
                         @endforeach
                     </select><br>
+                    <label for="genre">genre</label>
+                    <select id="genres" name="genre_id[]" multiple>
+                        @foreach($genres as $genre)
+                            <option value="{{ $genre->id }}"@if($errors->any() && old('genre_id') && in_array($genre->id, old('genre_id')))
+                                                                selected 
+                                                            @endif
+                                                                >{{ $genre->name }}</option>
+                        @endforeach
+                    </select><br>
                     <label for="price">price</label>
                     <input type="number" id="price" name="price" step="0.01">
                     <br>

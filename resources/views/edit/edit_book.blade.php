@@ -38,6 +38,14 @@
                             ?>>{{ $store->name }}</option>
                         @endforeach
                     </select><br>
+                    <label for="genre">genre</label>
+                    <select id="genres" name="genre_id[]" multiple>
+                        @foreach($genres as $genre)
+                            <option value="{{ $genre->id }}"<?php 
+                            if($book->genres->find($genre->id)){echo "selected";} 
+                            ?>>{{ $genre->name }}</option>
+                        @endforeach
+                    </select><br>
                     <label for="price">price</label>
                     <input type="number" id="price" name="price" step="0.01" value="{{ $book->price }}">
                     <br>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Book_store;
+use App\Http\Controllers\ImageController;
 
 class Book extends Model
 {
@@ -21,6 +22,25 @@ class Book extends Model
 
     protected $appends = ['translated_name'];
 
+    public function create($request){
+        $book = new Book;
+            $book->name = $book->createTranslation($request->name);
+            $book->author_id = $request->author_id;
+            $book->publisher_id = $request->publisher_id;
+            $book->image_id = ImageController::store($request);
+            $book->price = $request->price;
+            $book->save();
+            $book->stores()->attach($request->store_id);
+            $book->genres()->attach($request->genre_id);
+            \App\Events\BookIsCreated::dispatch(
+                        Book::with([
+                            'author',
+                            'publisher',
+                            'stores',
+                            'genres',
+                            'image'
+                            ])->get()->find($book->id));
+    }
     public function author(){
         return $this->belongsTo(Author::class);
     }
@@ -34,11 +54,14 @@ class Book extends Model
         return $this->belongsToMany(Store::class, 'book_store')
                     ->withPivot('sales_amount');
     }
+    public function genres(){
+        return $this->belongsToMany(Genre::class, 'book_genre');
+    }
     public function orders(){
         return $this->belongsToMany(Order::class, 'book_order')
                     ->withTimestamps()
                     ->withPivot(
-                        'amount', 
+                        'amount',
                         'created_at'
                     );
     }
@@ -48,7 +71,7 @@ class Book extends Model
         return $this->attributes['translated_name'] = !array_key_exists($l,$arr) ? 
                 reset($arr) :
                 $arr[$l];
-    }
+    } 
     public function getName(){
         $arr = json_decode($this->original['name'], true);
         $l = session('language', "4");
